@@ -29,7 +29,7 @@ function generateResourceListing (options) {
     swaggerVersion: '1.1',
     basePath: options.basePath,
     apis: plurals.map(function (plural) {
-      return { path: '/api-docs/' + plural, description: 'Operations about ' + plural + '.' };
+      return { path: '/v1/api-docs/' + plural, description: 'Operations about ' + plural + '.' };
     })
   };
 
@@ -45,7 +45,7 @@ Swagger.prototype.finalize = function(app) {
 	 
 		controller.finalize();
 
-		app.use('/api/api-docs/' + route, function (request, response, next) {
+		app.use('/api/v1/api-docs/' + route, function (request, response, next) {
 			response.set('X-Powered-By', 'Baucis');
 			response.json(deco.merge(controller.swagger, {
 				apiVersion: controller.versions(),
@@ -57,7 +57,7 @@ Swagger.prototype.finalize = function(app) {
 	});
 
 	// Activate Swagger resource listing.
-	app.use("/api/api-docs", function (request, response, next) {
+	app.use("/api/v1/api-docs", function (request, response, next) {
 		response.set('X-Powered-By', 'Baucis');
 		response.json(generateResourceListing({
 			version: "0.0.1",
